@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"encoding/csv"
@@ -11,6 +11,7 @@ import (
 )
 
 var userFile string = "/Users/Pedro Simoni/MyCalendarBot/data/users.csv"
+var eventsFile string = "/Users/Pedro Simoni/MyCalendarBot/data/events.csv"
 
 func FindUser(currentUserID int64) (user user, err error) {
 	file, err := os.Open(userFile)
@@ -30,10 +31,8 @@ func FindUser(currentUserID int64) (user user, err error) {
 		row, err := fileReader.Read()
 		if err == nil {
 			for i, h := range header {
-				log.Printf("%v", h)
 				if h == "UserID" {
 					idRead, err := strconv.ParseInt(row[i], 10, 64)
-					log.Printf("--%d--", idRead)
 					if err != nil {
 						return user, errors.New("error reading users file")
 					} else if idRead != currentUserID {
